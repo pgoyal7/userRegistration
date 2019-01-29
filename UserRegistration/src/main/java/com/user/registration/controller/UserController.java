@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.user.registration.entities.User;
 import com.user.registration.repositiory.UserRepository;
+import com.user.registration.service.UserService;
 
 @RestController
 @RequestMapping("/api")
@@ -24,25 +25,26 @@ public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping("/users")
 	public List<User> getUsers() {
-		return userRepository.findAll();
+		return userService.getUsers();
+//		return userRepository.findAll();
 	}
 
 	@GetMapping("/user/{id}")
 	public User getUser(@PathVariable Long id) {
-		User user = getUserList(id);
-
-		return user;
+		return userService.getUser(id);
+//		return getUserList(id);
 	}
 
 	@DeleteMapping("/user/{id}")
 	public boolean deleteUser(@PathVariable Long id) {
-		User user = getUserList(id);
-		userRepository.delete(user);
-
-		return true;
+		return userService.deleteUser(id);
+//		userRepository.delete(getUserList(id));
 	}
 
 	@PostMapping("/user")
@@ -54,12 +56,4 @@ public class UserController {
 	public User updateUser(@RequestBody User user) {
 		return userRepository.save(user);
 	}
-
-	private User getUserList(Long id) {
-		List<User> users = userRepository.findAll();
-		User user = users.stream().filter(temp -> temp.getId() == id).collect(Collectors.toList()).get(0);
-
-		return user;
-	}
-
 }
