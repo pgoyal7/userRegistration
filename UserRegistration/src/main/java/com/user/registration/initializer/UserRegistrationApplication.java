@@ -27,7 +27,8 @@ public class UserRegistrationApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		userRepository.save(new User("piyush", "Goyal", "21071988", "male", "IT"));
-		System.out.println(userRepository.findAll().get(0).getId());
+		userRepository.save(new User("shilpi", "Goyal", "10081989", "female", "Travel"));
+		userRepository.save(new User("honey", "Goyal", "25061990", "female", "IT"));
 	}
 
 }
