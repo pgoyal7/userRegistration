@@ -10,32 +10,52 @@ import com.user.registration.entities.User;
 import com.user.registration.repositiory.UserRepository;
 
 @Repository("userDao")
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
+	/*
+	 * Get the list of the users
+	 * 
+	 * */
 	@Override
 	public List<User> getUsers() {
 		return userRepository.findAll();
 	}
 
+	/*
+	 * Get the user by using the id
+	 * 
+	 * */
 	@Override
 	public User getUser(Long id) {
 		return getUserList(id);
 	}
-
+	
+	/*
+	 * delete the user by given id
+	 * 
+	 * */
 	@Override
 	public boolean deleteUser(Long id) {
 		userRepository.delete(getUserList(id));
 		return true;
 	}
 
+	/*
+	 * save the new user into the database
+	 * 
+	 * */
 	@Override
 	public User createUser(User user) {
 		return userRepository.save(user);
 	}
 
+	/*
+	 * update the existing user in the database
+	 * 
+	 * */
 	@Override
 	public User updateUser(User user) {
 		return userRepository.save(user);
@@ -43,7 +63,12 @@ public class UserDaoImpl implements UserDao{
 
 	private User getUserList(Long id) {
 		List<User> users = getUsers();
-		User user = users.stream().filter(temp -> temp.getId() == id).collect(Collectors.toList()).get(0);
+		User user = null;
+		users = users.stream().filter(temp -> temp.getId() == id).collect(Collectors.toList());
+
+		if (users.size() > 0) {
+			user = users.get(0);
+		}
 
 		return user;
 	}

@@ -20,38 +20,55 @@ import com.user.registration.service.UserService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*")
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserService userService;
 
+	/*
+	 * Get the list of the users
+	 * 
+	 * */
 	@RequestMapping("/users")
 	public List<User> getUsers() {
 		return userService.getUsers();
-//		return userRepository.findAll();
 	}
 
+	/*
+	 * Get the user by using id
+	 * 
+	 * */
 	@GetMapping("/user/{id}")
 	public User getUser(@PathVariable Long id) {
 		return userService.getUser(id);
-//		return getUserList(id);
 	}
 
+	/*
+	 * delete the user by the given id
+	 * 
+	 * */
 	@DeleteMapping("/user/{id}")
 	public boolean deleteUser(@PathVariable Long id) {
 		return userService.deleteUser(id);
-//		userRepository.delete(getUserList(id));
 	}
 
+	/*
+	 * Save the user in the database
+	 * 
+	 * */
 	@PostMapping("/user")
 	public User createUser(@RequestBody User user) {
 		return userRepository.save(user);
 	}
 
+	/*
+	 * update the user in the database
+	 * 
+	 * */
 	@PutMapping("/user")
 	public User updateUser(@RequestBody User user) {
 		return userRepository.save(user);
